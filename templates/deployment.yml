@@ -1,0 +1,28 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Release.Name }}-dynamodb-local
+spec:
+  replicas: {{ .Values.replicaCount }}
+  selector:  # This selector should match the labels in the template
+    matchLabels:
+      app: dynamodb-local
+  template:
+    metadata:
+      labels:
+        app: dynamodb-local
+    spec:
+      containers:
+        - name: dynamodb-local
+          image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - containerPort: 8000
+          volumeMounts:
+            - name: dynamodb-local-data
+              mountPath: /home/dynamodblocal/data
+      volumes:
+        - name: dynamodb-local-data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-dynamodb-local-data

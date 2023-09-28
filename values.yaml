@@ -1,0 +1,13 @@
+---
+replicaCount: 1
+
+image:
+  repository: amazon/dynamodb-local
+  tag: latest
+  pullPolicy: IfNotPresent
+
+persistence:
+  enabled: true
+  storageClassName: microk8s-hostpath  # Replace with your StorageClass name
+  accessMode: ReadWriteOnce
+  size: 1Gi
