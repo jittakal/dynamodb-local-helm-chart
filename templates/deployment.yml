@@ -17,6 +17,7 @@ spec:
         - name: dynamodb-local
           image: {{ .Values.image.repository }}:{{ .Values.image.tag }}
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          args: [ "-Djava.library.path=./DynamoDBLocal_lib", "-jar", "DynamoDBLocal.jar", "-dbPath", "/home/dynamodblocal/data", "-sharedDb"]
           ports:
             - containerPort: 8000
           volumeMounts:
